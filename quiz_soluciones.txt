@@ -7,10 +7,10 @@ SELECT DISTINCT ACTIVIDAD_NOMBRE FROM tic_2023;
 
 -- PUNTO 2
 SELECT 
-    SEDE_CODIGO AS codigo_sede,
-    PERIODO_ANIO AS anio_reporte,
-    ACTIVIDAD_CODIGO AS cod_actividad,
-    ACTIVIDAD_NOMBRE AS nombre_actividad
+    SEDE_CODIGO codigo_sede,
+    PERIODO_ANIO anio_reporte,
+    ACTIVIDAD_CODIGO cod_actividad,
+    ACTIVIDAD_NOMBRE nombre_actividad
 FROM tic_2022
 ORDER BY SEDE_CODIGO ASC
 LIMIT 50;
