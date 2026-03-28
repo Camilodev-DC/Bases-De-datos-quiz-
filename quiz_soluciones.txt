@@ -1,0 +1,55 @@
+-- PUNTO 1
+-- Consulta A
+SELECT * FROM tic_2023;
+
+-- Consulta B
+SELECT DISTINCT ACTIVIDAD_NOMBRE FROM tic_2023;
+
+-- PUNTO 2
+SELECT 
+    SEDE_CODIGO AS codigo_sede,
+    PERIODO_ANIO AS anio_reporte,
+    ACTIVIDAD_CODIGO AS cod_actividad,
+    ACTIVIDAD_NOMBRE AS nombre_actividad
+FROM tic_2022
+ORDER BY SEDE_CODIGO ASC
+LIMIT 50;
+
+-- PUNTO 3
+CREATE TABLE tic_sedes_resumen (
+    resumen_id INT PRIMARY KEY,
+    sede_codigo INT NOT NULL,
+    anio INT NOT NULL,
+    Total_actividades INT,
+    Tiene_internet BOOLEAN,
+    Fecha_carga DATETIME,
+    CONSTRAINT unique_sede_anio UNIQUE (sede_codigo, anio)
+);
+
+-- PUNTO 4
+SELECT 
+    SUBSTR(SEDE_CODIGO, 1, 2) AS codigo_departamento,
+    COUNT(DISTINCT SEDE_CODIGO) AS total_sedes
+FROM tic_2023
+WHERE ACTIVIDAD_CODIGO = '05'
+GROUP BY SUBSTR(SEDE_CODIGO, 1, 2)
+HAVING COUNT(DISTINCT SEDE_CODIGO) > 500
+ORDER BY total_sedes DESC;
+
+-- PUNTO 5
+SELECT 
+    t22.SEDE_CODIGO AS codigo_sede,
+    COUNT(t22.ACTIVIDAD_CODIGO) AS total_act_2022,
+    COUNT(t23.ACTIVIDAD_CODIGO) AS total_act_2023,
+    (total_act_2023 - total_act_2022) AS diferencia,
+    CASE 
+        WHEN (total_act_2023 - total_act_2022) > 0 THEN 'CRECIÓ'
+        WHEN (total_act_2023 - total_act_2022) < 0 THEN 'DECRECIÓ'
+        ELSE 'SIN CAMBIO'
+    END AS tendencia
+FROM tic_2022 t22
+INNER JOIN tic_2023 t23 ON t22.SEDE_CODIGO = t23.SEDE_CODIGO
+WHERE total_act_2022 >= 2
+GROUP BY t22.SEDE_CODIGO
+ORDER BY diferencia DESC
+LIMIT 30;
