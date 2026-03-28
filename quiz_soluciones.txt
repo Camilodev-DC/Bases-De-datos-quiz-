@@ -1,3 +1,5 @@
+Cambie el nombre de los archivos para Hacer las querys mas faciles 
+
 -- PUNTO 1
 -- Consulta A
 SELECT * FROM tic_2023;
